@@ -284,7 +284,9 @@ public class NewJFrame extends javax.swing.JFrame {
     private void connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectActionPerformed
         if (sernam.getText().equals("") && portnr.getText().equals("") && dbname.getText().equals("") && uname.getText().equals("")) {
             System.out.println("The values are not set!");
+            System.out.println("");
         }
+        
         else{
             
         try {
