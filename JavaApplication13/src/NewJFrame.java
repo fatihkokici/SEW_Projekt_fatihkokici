@@ -2,6 +2,7 @@
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.TableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -340,9 +341,15 @@ public class NewJFrame extends javax.swing.JFrame {
                 district.setText(""+ddistrict);
                 cc.setText(dcc);
             }
+            cId.setEnabled(true);
+            district.setEnabled(true);
+            population.setEnabled(true);
+            name.setEnabled(true);
+            cc.setEnabled(true);
         } catch (SQLException ex) {
             System.out.println("Es wird kein Statement gemacht.");
         }
+        
         
         }
     }//GEN-LAST:event_connectActionPerformed
@@ -487,4 +494,8 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField uname;
     private javax.swing.JLabel username;
     // End of variables declaration//GEN-END:variables
+
+    private TableModel resultSetToTableModel(ResultSet res) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
