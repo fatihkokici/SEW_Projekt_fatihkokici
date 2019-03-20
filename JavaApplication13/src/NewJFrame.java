@@ -2,6 +2,7 @@
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -9,11 +10,6 @@ import net.proteanit.sql.DbUtils;
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
-
-/**
- *
- * @author fatkak14
  */
 public class NewJFrame extends javax.swing.JFrame {
 
@@ -32,7 +28,6 @@ public class NewJFrame extends javax.swing.JFrame {
     Connection con=null;
     PreparedStatement stm=null;
     ResultSet res=null;
-    String sql="SELECT * FROM produkt where population > 10000";
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -50,23 +45,19 @@ public class NewJFrame extends javax.swing.JFrame {
         dbname = new javax.swing.JTextField();
         connect = new javax.swing.JButton();
         disconnect = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        cId = new javax.swing.JTextField();
-        name = new javax.swing.JTextField();
-        cc = new javax.swing.JTextField();
-        district = new javax.swing.JTextField();
-        population = new javax.swing.JTextField();
+        value1 = new javax.swing.JTextField();
+        value2 = new javax.swing.JTextField();
+        value3 = new javax.swing.JTextField();
+        value4 = new javax.swing.JTextField();
         Insert = new javax.swing.JButton();
-        previous = new javax.swing.JButton();
-        next = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        delete = new javax.swing.JButton();
+        update = new javax.swing.JButton();
+        table = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,7 +82,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
         database.setText("Database");
 
-        dbname.setText("world");
         dbname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dbnameActionPerformed(evt);
@@ -112,45 +102,20 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Country ID");
-
-        jLabel3.setText("Name");
-
-        jLabel4.setText("Country Code");
-
-        jLabel5.setText("District");
-
-        jLabel6.setText("Population");
-
-        cId.addActionListener(new java.awt.event.ActionListener() {
+        value1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cIdActionPerformed(evt);
-            }
-        });
-
-        name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameActionPerformed(evt);
+                value1ActionPerformed(evt);
             }
         });
 
         Insert.setText("Insert");
-
-        previous.setText("<");
-        previous.addActionListener(new java.awt.event.ActionListener() {
+        Insert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                previousActionPerformed(evt);
+                InsertActionPerformed(evt);
             }
         });
 
-        next.setText(">");
-        next.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nextActionPerformed(evt);
-            }
-        });
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -158,10 +123,31 @@ public class NewJFrame extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Name", "Country Code", "Disctrict", "Population"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTable2);
+
+        delete.setText("Delete");
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionPerformed(evt);
+            }
+        });
+
+        update.setText("Update");
+        update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Table");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -172,24 +158,6 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addGap(37, 37, 37)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(district, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cc, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(population, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(51, 51, 51)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cId, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(server)
@@ -203,23 +171,32 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(username)
-                            .addComponent(pwd))
+                            .addComponent(pwd)
+                            .addComponent(jLabel1))
                         .addGap(24, 24, 24)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(uname, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-                            .addComponent(newpwd))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(disconnect, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                        .addComponent(connect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(Insert, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(newpwd)
+                            .addComponent(table))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(disconnect, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                            .addComponent(connect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(previous, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(next, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(value1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(value3, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(value2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(value4, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Insert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(delete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(update, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,36 +224,31 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(database)
-                    .addComponent(dbname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dbname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(table, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGap(8, 8, 8)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(cId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Insert))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(previous)
-                    .addComponent(next))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(cc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(district, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(population, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(Insert)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(delete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(update))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(value1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(value2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(value3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(value4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(53, 53, 53)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -317,33 +289,17 @@ public class NewJFrame extends javax.swing.JFrame {
             System.out.println("Could not connect!");
             javax.swing.JOptionPane.showMessageDialog(this, "Could not connect!");
         }
-        try {
-            
-                //String sql2 = "INSERT INTO city (Name, CountryCode, District, Population)"+" VALUES('Vlore','ALB','Sarande','300000')";
-                //int ra= statement.executeUpdate(sql2);
-                //System.out.println("Rowsaffected "+ra);            
-            
-            
+        try {         
+            String sql="SELECT * FROM "+table.getText();
             stm = con.prepareStatement(sql);
             res=stm.executeQuery(sql);
-            jTable1.setModel(DbUtils.resultSetToTableModel(res));
-            if(res.next()){
-                String dname = res.getString("Name");
-                int dpopulation= res.getInt("Population");
-                String ddistrict= res.getString("District");
-                int dcId=res.getInt("ID");
-                String dcc=res.getString("CountryCode");
-                cId.setText(""+dcId);
-                name.setText(dname);
-                population.setText(""+dpopulation);
-                district.setText(""+ddistrict);
-                cc.setText(dcc);
-            }
-            cId.setEnabled(true);
-            district.setEnabled(true);
-            population.setEnabled(true);
-            name.setEnabled(true);
-            cc.setEnabled(true);
+            jTable2.setModel(DbUtils.resultSetToTableModel(res));
+            value3.setEnabled(true);
+            value4.setEnabled(true);
+            value1.setEnabled(true);
+            value2.setEnabled(true);
+            float i = jTable2.getSelectedRow();
+            
             
         } catch (SQLException ex) {
             System.out.println("Es wird kein Statement gemacht.");
@@ -362,68 +318,86 @@ public class NewJFrame extends javax.swing.JFrame {
             connect.setEnabled(true);
             sernam.setEnabled(true);
             disconnect.setEnabled(false);
-            cId.setEnabled(false);
-            district.setEnabled(false);
-            population.setEnabled(false);
-            name.setEnabled(false);
-            cc.setEnabled(false);
+            value3.setEnabled(false);
+            value4.setEnabled(false);
+            value1.setEnabled(false);
+            value2.setEnabled(false);
         } catch (Exception ex) {
             System.out.println("Could not disconnet!");
             javax.swing.JOptionPane.showMessageDialog(this, "Could not disconnect!");
         }
     }//GEN-LAST:event_disconnectActionPerformed
 
-    private void cIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cIdActionPerformed
+    private void value1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_value1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cIdActionPerformed
+    }//GEN-LAST:event_value1ActionPerformed
 
-    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameActionPerformed
-
-    private void previousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousActionPerformed
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        int i = jTable2.getSelectedRow();
+        String x= jTable2.getModel().getValueAt(i, 0).toString();
+        
         try {
-            if(res.previous()){
-                String dname = res.getString("Name");
-                int dpopulation= res.getInt("Population");
-                String ddistrict= res.getString("District");
-                int dcId=res.getInt("ID");
-                String dcc=res.getString("CountryCode");
-                cId.setText(""+dcId);
-                name.setText(dname);
-                population.setText(""+dpopulation);
-                district.setText(""+ddistrict);
-                cc.setText(dcc);
-            }
-            else{
-                res.last();
-            }
+            ResultSetMetaData resmet=res.getMetaData();
+            String sql="delete from "+table.getText()+" where "+resmet.getColumnName(1)+"="+x;
+            stm = con.prepareStatement(sql);
+            stm.executeUpdate();
+            JOptionPane.showMessageDialog(null,"Deleted");
         } catch (SQLException ex) {
-            System.out.println("Nichts");
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_previousActionPerformed
+        
+    }//GEN-LAST:event_deleteActionPerformed
 
-    private void nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextActionPerformed
+    private void InsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsertActionPerformed
+        String v1 = this.value1.getText().toString();
+        String v2 = this.value2.getText().toString();
+        String v3 = this.value3.getText().toString();
+        String v4 = this.value4.getText();
         try {
-            if(res.next()){
-                String dname = res.getString("Name");
-                int dpopulation= res.getInt("Population");
-                String ddistrict= res.getString("District");
-                int dcId=res.getInt("ID");
-                String dcc=res.getString("CountryCode");
-                cId.setText(""+dcId);
-                name.setText(dname);
-                population.setText(""+dpopulation);
-                district.setText(""+ddistrict);
-                cc.setText(dcc);
-            }
-            else{
-                res.first();
-            }
+            ResultSetMetaData resmet=res.getMetaData();
+            String sql = "insert into "+table.getText()+" ("+resmet.getColumnName(2)+", "+resmet.getColumnName(3)+", "+resmet.getColumnName(4)+", "+resmet.getColumnName(5)+")  values (?, ?, ?, ?)";
+            stm=con.prepareStatement(sql);
+            stm.setString(1, v1);
+            stm.setString(2, v2);
+            stm.setString(3, v3);
+            stm.setString(4, v4);
+            
+            stm.executeUpdate();
+            JOptionPane.showMessageDialog(null,"New row is inserted");
         } catch (SQLException ex) {
-            System.out.println("Nichts 2");
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_nextActionPerformed
+    }//GEN-LAST:event_InsertActionPerformed
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        int i = jTable2.getSelectedRow();
+        this.value1.setText(jTable2.getValueAt(i, 1).toString());
+        this.value2.setText(jTable2.getValueAt(i, 2).toString());
+        this.value3.setText(jTable2.getValueAt(i, 3).toString());
+        this.value4.setText(jTable2.getValueAt(i, 4).toString());
+    }//GEN-LAST:event_jTable2MouseClicked
+
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+        int i=jTable2.getSelectedRow();
+            String v1 = this.value1.getText().toString();
+            String v2 = this.value2.getText().toString();
+            String v3 = this.value3.getText().toString();
+            String v4 = this.value4.getText();
+            jTable2.setValueAt(v1, i, 1);
+            jTable2.setValueAt(v2, i, 2);
+            jTable2.setValueAt(v3, i, 3);
+            jTable2.setValueAt(v4, i, 4);
+            
+            try {
+                ResultSetMetaData resmet=res.getMetaData();
+                String sql = "update "+table.getText()+" set "+resmet.getColumnName(2)+"='"+v1+"', "+resmet.getColumnName(3)+"='"+v2+"', "+resmet.getColumnName(4)+"='"+v3+"', "+resmet.getColumnName(5)+"='"+v4+"' where "+resmet.getColumnName(1)+"="+jTable2.getValueAt(i, 0);
+                stm=con.prepareStatement(sql);
+                stm.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Updated Succesfully");
+            } catch (SQLException ex) {
+                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }//GEN-LAST:event_updateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -463,35 +437,31 @@ public class NewJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Insert;
-    private javax.swing.JTextField cId;
-    private javax.swing.JTextField cc;
     private javax.swing.JButton connect;
     private javax.swing.JLabel database;
     private javax.swing.JTextField dbname;
+    private javax.swing.JButton delete;
     private javax.swing.JButton disconnect;
-    private javax.swing.JTextField district;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField name;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextField newpwd;
-    private javax.swing.JButton next;
-    private javax.swing.JTextField population;
     private javax.swing.JLabel port;
     private javax.swing.JTextField portnr;
-    private javax.swing.JButton previous;
     private javax.swing.JLabel pwd;
     private javax.swing.JTextField sernam;
     private javax.swing.JLabel server;
+    private javax.swing.JTextField table;
     private javax.swing.JTextField uname;
+    private javax.swing.JButton update;
     private javax.swing.JLabel username;
+    private javax.swing.JTextField value1;
+    private javax.swing.JTextField value2;
+    private javax.swing.JTextField value3;
+    private javax.swing.JTextField value4;
     // End of variables declaration//GEN-END:variables
 
     private TableModel resultSetToTableModel(ResultSet res) {
